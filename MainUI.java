@@ -3,6 +3,7 @@ package ui;
 import model.Project;
 import model.ProjectManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,6 +41,12 @@ public class MainUI {
                 case 'M':
                     manageProject();
                     break;
+                case 'R':
+                    removeProject();
+                    break;
+                case 'L':
+                    listAll();
+                    break;
                 case 'X':
                     break;
                 default:
@@ -70,7 +77,7 @@ public class MainUI {
             System.out.print("Description: ");
             String description = scan.nextLine();
             Project newProject = manager.addProject(title, description);
-            System.out.println("Project created: " + newProject);
+            System.out.println("\nPROJECT CREATED: \n" + newProject);
         } catch (IllegalArgumentException e) {
             System.out.println("A project with that title already exists.");
         }
@@ -81,7 +88,7 @@ public class MainUI {
         int id = scan.nextInt();
         scan.nextLine(); //remove "new line" from scanner buffer
         Project currentProject = manager.getProjectById(id);
-        if (currentProject != null) { // TODO: This is ugly!
+        if (currentProject != null) {
             System.out.println(currentProject);
             currentProjectUI.setCurrentProject(currentProject);
         } else {
@@ -89,11 +96,35 @@ public class MainUI {
         }
     }
 
+
+    /**Removes project using the removeProject method in projectManager class by matching projectID*/
+    private void removeProject(){
+        System.out.print("Project id? ");
+        int id = scan.nextInt();
+        scan.nextLine(); //remove "new line" from scanner buffer
+        Project currentProject = manager.getProjectById(id);
+        if (currentProject != null) {
+            manager.removeProject(currentProject);
+            System.out.println(currentProject + "has been removed!");
+        }
+    }
+
+
+    /** Lets user see all projects represented in i list*/
+    private void listAll(){
+        ArrayList<Project> list = manager.getProjects();
+
+        for(int i=0; i<list.size(); i++)
+        System.out.println(list.get(i));
+    }
+
     private void printMainMenu() {
         System.out.println("---Main menu---");
         System.out.println("F - find project");
         System.out.println("A - add project");
         System.out.println("M - manage project");
+        System.out.println("R - remove project");
+        System.out.println("L - list all projects");
         System.out.println("X - exit");
         System.out.println("----------");
     }

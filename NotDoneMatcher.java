@@ -4,6 +4,9 @@ import model.ProjectState;
 import model.Task;
 import model.TaskState;
 
+/**
+ * Compares a task with the enum TaskState "DONE" and finds all tasks that are not completed
+ */
 public class NotDoneMatcher implements ITaskMatcher{
 
     public NotDoneMatcher() {

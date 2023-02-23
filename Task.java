@@ -3,29 +3,33 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Comparator;
 
-import static java.time.LocalTime.now;
 
+/**
+ * Represents logic and data for all tasks
+ */
 public class Task implements Comparable<Task>, Serializable {
 
-    private String description;
-    private int id;
+    private final String description;
+    private final int id;
     private String takenBy = " No One " ;
     private TaskState state = TaskState.TO_DO;
     private LocalDate lastUpdate;
     private Prio prio;
 
 
+    /** Contructs a new task*/
     Task(String description, int id, Prio prio) {
         this.description = description;
         this.id = id;
         this.prio = prio;
     }
 
+
+    /** Sets new person/name to a task but throws an exception if the task is already taken*/
     public void setTakenBy(String takenBy) {
         if(this.takenBy!=" No One "){
-            throw new IllegalStateException();
+            throw new IllegalStateException("Already Taken");
         } else {
             this.takenBy = takenBy;
             updateLastUpdate();

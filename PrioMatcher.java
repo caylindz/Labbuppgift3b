@@ -2,6 +2,10 @@ package Matcher;
 
 import model.*;
 
+
+/**
+ * Compares a task with the enum PRIO and finds all tasks that match the prio that was searched for
+ */
 public class PrioMatcher implements ITaskMatcher {
 
     private Prio searchPrio;

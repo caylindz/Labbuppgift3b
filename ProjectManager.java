@@ -3,17 +3,26 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
+/**
+ * Represents logic and data for project managing
+ */
 public class ProjectManager {
+
+
 
     private int nextProjectId = 1000;
     private ArrayList<Project> projectList;
 
+
+    /** Constructs new list of projects*/
     public ProjectManager() {
         projectList = new ArrayList<>();
 
     }
 
 
+    /** Finds the projects that matched the id received*/
     public Project getProjectById(int id){
 
 
@@ -27,6 +36,13 @@ public class ProjectManager {
     }
 
 
+    /** Adds project to the end of the list of all projects and checks that the
+     * project has a unique name
+     *
+     * @param title the title of the project
+     * @param desc the description of the project
+     * @return addedProject the project added to the list
+     */
     public Project addProject(String title, String desc){
         isTitleUnique(title);
         Project addedProject = new Project(title, nextProjectId,desc);
@@ -40,10 +56,11 @@ public class ProjectManager {
     }
 
 
+    /** Makes sure the list of projects is cleared before adding saved ones from the file */
     public void setProjects(ArrayList<Project> incomingProjects){
-        //TODO check if title unique needs to be checked before added
         projectList.clear();
         projectList.addAll(incomingProjects);
+        nextProjectId = incomingProjects.get(incomingProjects.size()-1).getId() + 1 ;
     }
 
 
@@ -57,8 +74,9 @@ public class ProjectManager {
         return tmp.get(tmp.size()-1);
     }
 
-    public boolean isTitleUnique(String title) {
 
+    /** Makes sure the title added is unique and throws an exception otherwise*/
+    public boolean isTitleUnique(String title) {
 
         projectList.forEach((n) -> {
             if (n.getTitle().compareTo(title) == 0) {
@@ -67,24 +85,15 @@ public class ProjectManager {
         });
 
         return true;
-
-        /*
-        int sameTitle = 5;
-        for(int i=0; i<projectList.size(); i++){
-            int sameTitle = projectList.get(i).getTitle().compareTo(title);
-        }
-
-        if(sameTitle==0){
-            throw new TitleNotUniqueException("Title Exists Already" );
-           }
-            */
     }
 
+
+    /** Finds projects by matching substring in titles*/
     public ArrayList<Project> findProjects(String title){
         ArrayList<Project> matchedProjects = new ArrayList<>();
 
         for(int i=0; i<projectList.size(); i++){
-            if(projectList.get(i).getTitle().compareTo(title)==0){
+            if(projectList.get(i).getTitle().contains(title)){
                 matchedProjects.add(projectList.get(i));
             }
         }
@@ -92,8 +101,16 @@ public class ProjectManager {
         return matchedProjects;
     }
 
+
+    /** Returns a copy of all projects*/
     public ArrayList<Project> getProjects() {
-        return projectList;
+        ArrayList<Project> Cpy = new ArrayList<>();
+
+        for(int i=0; i<projectList.size(); i++){
+            Cpy.add(projectList.get(i));
+        }
+
+        return Cpy;
     }
 
     @Override

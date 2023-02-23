@@ -2,6 +2,11 @@ package Matcher;
 
 import model.*;
 
+
+/**
+ * Compares a task with the person taking the task and finds all tasks that
+ * are taken by that certain name
+ */
 public class TakenByMatcher implements ITaskMatcher {
 
     private String searchName;

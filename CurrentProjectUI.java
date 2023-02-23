@@ -2,7 +2,6 @@ package ui;
 
 import Matcher.ITaskMatcher;
 import Matcher.TakenByMatcher;
-//import Matcher.AllTasksmatcher;
 import Matcher.NotDoneMatcher;
 import Matcher.PrioMatcher;
 import model.*;
@@ -58,6 +57,9 @@ class CurrentProjectUI {
                 case 'U':
                     updateTask();
                     break;
+                case 'R':
+                    removeTask();
+                    break;
                 case 'X':
                     break;
                 default:
@@ -82,6 +84,10 @@ class CurrentProjectUI {
         currentProject.addTask(descr, prio);
     }
 
+
+    /**
+     *  Lets user change either state, prio or takenBy
+     */
     private void updateTask() {
         System.out.print("Task id? ");
         int id = scan.nextInt();
@@ -89,21 +95,68 @@ class CurrentProjectUI {
         Task task = currentProject.getTaskById(id);
         if (task != null) {
             System.out.println(task);
-            System.out.print("New state (T)odo (D)one? ");
-            char stateChar = InputUtils.scanAndReturnFirstChar(scan);
-            if (stateChar == 'T') {
-                System.out.print("Taken by (name or email address)? ");
-                String emailStr = scan.nextLine();
-                task.setState(TaskState.TO_DO);
-                task.setTakenBy(emailStr);
-            }
-            else if(stateChar == ('D')) {
-                task.setState(TaskState.DONE);
+            System.out.println("Update (P)rio, (T)aken by or (S)tate ?");
+            char choiceChar = InputUtils.scanAndReturnFirstChar(scan);
+
+            switch(choiceChar){
+                case 'P':
+                    System.out.println("Change to (H)igh, (M)edium or (L)ow?");
+                    char choicePrio = InputUtils.scanAndReturnFirstChar(scan);
+                    if(choicePrio=='H'){
+                        task.setPrio(Prio.High);
+                    }else if(choicePrio=='M'){
+                        task.setPrio(Prio.Medium);
+                    }else if(choicePrio=='L'){
+                        task.setPrio(Prio.Low);
+                    }else{
+                        System.out.println("Error, wrong input");
+                    } break;
+
+
+                case 'T':
+                    System.out.print("Taken by (name or email address)? ");
+                    String emailStr = scan.nextLine();
+                    task.setState(TaskState.IN_PROGRESS);
+                    task.setTakenBy(emailStr); break;
+
+
+                case 'S':
+                    System.out.print("New state (T)odo (I)n progress (D)one? ");
+                    char stateChar = InputUtils.scanAndReturnFirstChar(scan);
+                    if(stateChar=='T'){
+                        task.setState(TaskState.TO_DO);
+                    }else if(stateChar=='I'){
+                        task.setState(TaskState.IN_PROGRESS);
+                    }else if(stateChar=='D'){
+                        task.setState(TaskState.DONE);
+                    }else{
+                        System.out.println("Error, wrong input");
+                    } break;
+
+                default:
+                    System.out.println("Error, does not match input.");
             }
         } else {
             System.out.println("Id not found.");
         }
     }
+
+
+    /**Removes task using the removeTask method in project class by matching taskID*/
+    private void removeTask(){
+        System.out.print("Task id? ");
+        int id = scan.nextInt();
+        scan.nextLine(); //remove "new line" from scanner buffer
+        Task task = currentProject.getTaskById(id);
+        if (task != null) {
+            currentProject.removeTask(task);
+            System.out.println(task + "has been removed!");
+        } else {
+            System.out.println("No such project");
+        }
+
+    }
+
 
     private void printCurrentProjectMenu() {
         System.out.println("--- Manage " + currentProject.getTitle() + " ---");
@@ -112,6 +165,7 @@ class CurrentProjectUI {
         System.out.println("H - list high priority tasks");
         System.out.println("A - add task");
         System.out.println("U - update task");
+        System.out.println("R - remove task");
         System.out.println("X - exit project menu");
         System.out.println("----------");
     }
