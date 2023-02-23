@@ -19,5 +19,12 @@ public class TakenByMatcher implements ITaskMatcher {
         }
     }
 
+    @Override
+    public String toString() {
+        return "TakenByMatcher{" +
+                "searchName='" + searchName + '\'' +
+                '}';
+    }
+
 
 }

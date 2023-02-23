@@ -5,10 +5,10 @@ import java.util.Collections;
 
 public class ProjectManager {
 
-    private int nextProjectId = 10000;
+    private int nextProjectId = 1000;
     private ArrayList<Project> projectList;
 
-    public ProjectManager(int nextProjectId) {
+    public ProjectManager() {
         projectList = new ArrayList<>();
 
     }
@@ -31,6 +31,7 @@ public class ProjectManager {
         isTitleUnique(title);
         Project addedProject = new Project(title, nextProjectId,desc);
         nextProjectId++;
+        projectList.add(addedProject);
         return addedProject;
     }
 
@@ -83,7 +84,6 @@ public class ProjectManager {
         ArrayList<Project> matchedProjects = new ArrayList<>();
 
         for(int i=0; i<projectList.size(); i++){
-
             if(projectList.get(i).getTitle().compareTo(title)==0){
                 matchedProjects.add(projectList.get(i));
             }
@@ -92,4 +92,15 @@ public class ProjectManager {
         return matchedProjects;
     }
 
+    public ArrayList<Project> getProjects() {
+        return projectList;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectManager{" +
+                "nextProjectId=" + nextProjectId +
+                ", projectList=" + projectList +
+                '}';
+    }
 }

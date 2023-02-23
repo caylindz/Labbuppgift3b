@@ -19,5 +19,10 @@ public class PrioMatcher implements ITaskMatcher {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "PrioMatcher{" +
+                "searchPrio=" + searchPrio +
+                '}';
+    }
 }

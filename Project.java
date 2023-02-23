@@ -5,6 +5,7 @@ import Matcher.ITaskMatcher;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Project implements Comparable<Project>, Serializable {
 
@@ -48,6 +49,7 @@ public class Project implements Comparable<Project>, Serializable {
     public Task addTask(String desc, Prio prio){
         Task addedTask = new Task(desc, nextTaskId, prio);
         nextTaskId++;
+        taskList.add(addedTask);
         return addedTask;
     }
 
@@ -96,6 +98,8 @@ public class Project implements Comparable<Project>, Serializable {
             }
         }
 
+        Collections.sort(matchedTasks, Collections.reverseOrder(Task::compareTo));
+
         //TODO Check if this is correct, matcher and search?
 
         return matchedTasks;
@@ -111,5 +115,12 @@ public class Project implements Comparable<Project>, Serializable {
         return title.compareTo(anotherProject.title);
     }
 
+    @Override
+    public String toString() {
+        return
+                "title:" + title + '\n' +
+                "id:" + id + '\n'+
+                "description:" + description + '\n' ;
+    }
 }
 

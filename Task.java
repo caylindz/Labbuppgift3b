@@ -11,8 +11,8 @@ public class Task implements Comparable<Task>, Serializable {
 
     private String description;
     private int id;
-    private String takenBy = null;
-    private TaskState state;
+    private String takenBy = " No One " ;
+    private TaskState state = TaskState.TO_DO;
     private LocalDate lastUpdate;
     private Prio prio;
 
@@ -24,7 +24,7 @@ public class Task implements Comparable<Task>, Serializable {
     }
 
     public void setTakenBy(String takenBy) {
-        if(this.takenBy!=null){
+        if(this.takenBy!=" No One "){
             throw new IllegalStateException();
         } else {
             this.takenBy = takenBy;
@@ -81,5 +81,14 @@ public class Task implements Comparable<Task>, Serializable {
         }
 
         return rank;
+    }
+
+    @Override
+    public String toString() {
+        return    "id:" + id + '\n'+
+                    description + '\n' +
+                "state:" + state + '\n' +
+                "prio:" + prio + '\n' +
+                "taken by:" + takenBy + '\n' ;
     }
 }

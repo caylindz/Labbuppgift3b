@@ -6,18 +6,21 @@ import model.TaskState;
 
 public class NotDoneMatcher implements ITaskMatcher{
 
-    private NotDoneMatcher() {
+    public NotDoneMatcher() {
 
     }
 
     @Override
     public boolean match(Task task) {
-        if(task.getState().compareTo(TaskState.DONE)==0){
+        if(task.getState().compareTo(TaskState.DONE)!=0){
             return true;
         } else {
             return false;
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "NotDoneMatcher{}";
+    }
 }
